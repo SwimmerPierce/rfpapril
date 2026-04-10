@@ -49,4 +49,7 @@
 
 ## Traceability
 
-*(To be filled by roadmap phase mapping)*
+- **Phase 1: Database & Scraper Skeleton**: SCRAP-01, SCRAP-02, DB-01, DB-02, DB-03, OPS-01
+- **Phase 2: Business Logic Engine**: PROC-01, PROC-02, PROC-03, PROC-04
+- **Phase 3: Zoho CRM Integration**: SYNC-01, SYNC-02, SYNC-03, ADMIN-01, ADMIN-02
+- **Phase 4: Email Notifications**: NOTIF-01, NOTIF-02
