@@ -1,0 +1,31 @@
+[project]
+name = "bc-bids-lead-gen"
+version = "0.1.0"
+description = "Lead generation platform for BC Bids government contracts."
+authors = [{ name = "GSD Executor" }]
+dependencies = [
+    "sqlmodel>=0.0.22",
+    "alembic>=1.13.1",
+    "psycopg2-binary>=2.9.9",
+    "playwright>=1.41.0",
+    "pytest>=8.0.0",
+    "python-dotenv>=1.0.1",
+    "pydantic>=2.6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "black>=24.0.0",
+    "isort>=5.13.0",
+    "mypy>=1.8.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
