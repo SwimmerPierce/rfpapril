@@ -13,6 +13,7 @@ class Project(SQLModel, table=True):
     issuing_org: str
     date: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     url: str
+    zoho_id: Optional[str] = Field(default=None, index=True)
 
     bids: List["Bid"] = Relationship(back_populates="project")
 
@@ -24,6 +25,7 @@ class Company(SQLModel, table=True):
     google_found: Optional[bool] = Field(default=None)
     website_found: Optional[str] = Field(default=None)
     linkedin_found: Optional[str] = Field(default=None)
+    zoho_id: Optional[str] = Field(default=None, index=True)
 
     bids: List["Bid"] = Relationship(back_populates="company")
 
@@ -41,6 +43,7 @@ class Bid(SQLModel, table=True):
 
     project_id: int = Field(foreign_key="project.id")
     company_id: int = Field(foreign_key="company.id")
+    zoho_id: Optional[str] = Field(default=None, index=True)
 
     project: Project = Relationship(back_populates="bids")
     company: Company = Relationship(back_populates="bids")
@@ -99,3 +102,11 @@ class SystemError(SQLModel, table=True):
     entity_id: Optional[int] = Field(default=None, index=True)
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     resolved: bool = Field(default=False)
+    zoho_id: Optional[str] = Field(default=None, index=True)
+
+class ZohoSyncState(SQLModel, table=True):
+    __tablename__ = "zoho_sync_state"
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    module_name: str = Field(unique=True, index=True)
+    last_sync: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
