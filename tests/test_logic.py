@@ -6,7 +6,7 @@ Uses an in-memory SQLite database so tests are self-contained and fast.
 from decimal import Decimal
 
 import pytest
-from sqlmodel import Session, SQLModel, create_engine
+from sqlmodel import Session, SQLModel, create_engine, select
 
 from src.database.models import (
     Bid,
@@ -184,7 +184,7 @@ def test_broker_assignment_single_match(session: Session):
 
     assign_brokers(session, bid.id)
 
-    assignments = session.query(BidAssignment).filter(BidAssignment.bid_id == bid.id).all()
+    assignments = session.exec(select(BidAssignment).where(BidAssignment.bid_id == bid.id)).all()
     assert len(assignments) == 1
     assert assignments[0].broker_id == broker.id
 
@@ -214,7 +214,7 @@ def test_broker_assignment_no_match(session: Session):
 
     assign_brokers(session, bid.id)
 
-    assignments = session.query(BidAssignment).filter(BidAssignment.bid_id == bid.id).all()
+    assignments = session.exec(select(BidAssignment).where(BidAssignment.bid_id == bid.id)).all()
     assert len(assignments) == 0
 
 
@@ -242,7 +242,7 @@ def test_broker_assignment_threshold_boundary(session: Session):
 
     assign_brokers(session, bid.id)
 
-    assignments = session.query(BidAssignment).filter(BidAssignment.bid_id == bid.id).all()
+    assignments = session.exec(select(BidAssignment).where(BidAssignment.bid_id == bid.id)).all()
     assert len(assignments) == 0
 
 
@@ -274,7 +274,7 @@ def test_broker_assignment_multiple_brokers(session: Session):
 
     assign_brokers(session, bid.id)
 
-    assignments = session.query(BidAssignment).filter(BidAssignment.bid_id == bid.id).all()
+    assignments = session.exec(select(BidAssignment).where(BidAssignment.bid_id == bid.id)).all()
     assert len(assignments) == 2
     assigned_broker_ids = {a.broker_id for a in assignments}
     assert broker1.id in assigned_broker_ids
@@ -309,6 +309,6 @@ def test_broker_assignment_inactive_broker_excluded(session: Session):
 
     assign_brokers(session, bid.id)
 
-    assignments = session.query(BidAssignment).filter(BidAssignment.bid_id == bid.id).all()
+    assignments = session.exec(select(BidAssignment).where(BidAssignment.bid_id == bid.id)).all()
     assert len(assignments) == 1
     assert assignments[0].broker_id == active_broker.id
