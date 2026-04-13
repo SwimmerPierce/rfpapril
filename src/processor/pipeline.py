@@ -6,6 +6,7 @@ Orchestrates all post-scrape business logic in a single call:
   2. Flag the lowest bid(s) as winners.
   3. Assign brokers to every bid in those projects.
   4. Enrich any Company that hasn't been processed yet (website_found is None).
+  5. Sync all new/updated records to Zoho CRM.
 
 All per-item failures are caught and written to the SystemError table so a
 single bad record never aborts the rest of the run (T-02-03-01).
@@ -109,3 +110,18 @@ def run_post_scrape_pipeline(session: Session) -> None:
                 message=f"Enrichment failed for company {company_id}: {traceback.format_exc()}",
                 entity_id=company_id,
             )
+
+    # -----------------------------------------------------------------------
+    # Step 5: Sync all data to Zoho CRM.
+    # We call sync_all() to push companies, projects, bids, and system errors.
+    # -----------------------------------------------------------------------
+    try:
+        from src.integrations.zoho.sync_service import ZohoSyncService
+        sync_service = ZohoSyncService()
+        sync_service.sync_all(session)
+    except Exception:
+        log_processing_error(
+            session,
+            source="pipeline.zoho_sync",
+            message=f"Zoho sync orchestration failed: {traceback.format_exc()}",
+        )

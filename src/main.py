@@ -1,11 +1,15 @@
 import argparse
 import sys
 import traceback
+from dotenv import load_dotenv
+
 from src.scraper.bc_bids import scrape_unverified_results
 from src.scraper.processor import process_results, log_system_error
 from sqlmodel import Session
 from src.database.session import init_db, get_engine
 from src.processor.pipeline import run_post_scrape_pipeline
+
+load_dotenv()
 
 def run_scraper(dry_run: bool = False):
     """
