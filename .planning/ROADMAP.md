@@ -20,7 +20,10 @@
 1. A push to `main` branch reliably deploys the application.
 2. The scraper runs daily on a cron schedule, independently pulling all unverified bids from BC Bids.
 3. All new projects, companies, and bids are inserted into the PostgreSQL database without duplicates.
-**UI hint:** no
+**Plans:** 3 plans
+- [ ] 01-01-PLAN.md — Development Environment & Data Models
+- [ ] 01-02-PLAN.md — Infrastructure & CI/CD
+- [ ] 01-03-PLAN.md — BC Bids Scraper Core
 
 #### Phase 2: Business Logic Engine
 **Goal:** Establish logic to identify winners, match brokers, and queue enrichment.
