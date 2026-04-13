@@ -9,7 +9,9 @@ Threat mitigations:
   T-02-02-02: Only URLs are stored; no sensitive page content is retained.
 """
 
+import ipaddress
 from typing import Optional
+from urllib.parse import urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -34,6 +36,33 @@ _NOISE_DOMAINS = [
 
 # Default timeout (seconds) for all outbound HTTP requests.
 _REQUEST_TIMEOUT = 10
+
+# Private/loopback ranges that must never be fetched (SSRF mitigation, T-02-02-01).
+_PRIVATE_RANGES = [
+    ipaddress.ip_network("10.0.0.0/8"),
+    ipaddress.ip_network("172.16.0.0/12"),
+    ipaddress.ip_network("192.168.0.0/16"),
+    ipaddress.ip_network("127.0.0.0/8"),
+    ipaddress.ip_network("169.254.0.0/16"),  # link-local / AWS metadata
+    ipaddress.ip_network("::1/128"),
+    ipaddress.ip_network("fc00::/7"),
+]
+
+
+def _is_safe_url(url: str) -> bool:
+    """Return True only if the URL has an http/https scheme and a non-private host."""
+    try:
+        parsed = urlparse(url)
+        if parsed.scheme not in ("http", "https"):
+            return False
+        hostname = parsed.hostname or ""
+        if not hostname:
+            return False
+        addr = ipaddress.ip_address(hostname)
+        return not any(addr in net for net in _PRIVATE_RANGES)
+    except ValueError:
+        # hostname is a domain name, not an IP — treat as safe
+        return True
 
 
 def find_website(company_name: str) -> Optional[str]:
@@ -75,6 +104,8 @@ def extract_linkedin(website_url: str) -> Optional[str]:
     Returns:
         A LinkedIn company profile URL, or None if not found or on error.
     """
+    if not _is_safe_url(website_url):
+        return None
     try:
         response = requests.get(
             website_url,

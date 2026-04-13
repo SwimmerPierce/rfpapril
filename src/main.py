@@ -3,7 +3,8 @@ import sys
 import traceback
 from src.scraper.bc_bids import scrape_unverified_results
 from src.scraper.processor import process_results, log_system_error
-from src.database.session import init_db, get_session
+from sqlmodel import Session
+from src.database.session import init_db, get_engine
 from src.processor.pipeline import run_post_scrape_pipeline
 
 def run_scraper(dry_run: bool = False):
@@ -30,7 +31,7 @@ def run_scraper(dry_run: bool = False):
 
         print("Running post-scrape business logic pipeline...")
         try:
-            with get_session() as session:
+            with Session(get_engine()) as session:
                 run_post_scrape_pipeline(session)
             print("Pipeline complete.")
         except Exception as pipeline_err:

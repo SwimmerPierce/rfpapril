@@ -54,11 +54,22 @@ def assign_brokers(session: Session, bid_id: int) -> list[BidAssignment]:
     if not mappings:
         return []
 
-    # Filter to active brokers only, then create assignments.
+    # Filter to active brokers only, then create assignments (idempotent).
     assignments: list[BidAssignment] = []
     for mapping in mappings:
         broker = session.get(Broker, mapping.broker_id)
         if broker is None or not broker.is_active:
+            continue
+
+        # Skip if assignment already exists (prevents duplicates on re-runs).
+        existing = session.exec(
+            select(BidAssignment).where(
+                BidAssignment.bid_id == bid_id,
+                BidAssignment.broker_id == broker.id,
+            )
+        ).first()
+        if existing:
+            assignments.append(existing)
             continue
 
         assignment = BidAssignment(bid_id=bid_id, broker_id=broker.id)
