@@ -3,7 +3,8 @@ import sys
 import traceback
 from src.scraper.bc_bids import scrape_unverified_results
 from src.scraper.processor import process_results, log_system_error
-from src.database.session import init_db
+from src.database.session import init_db, get_session
+from src.processor.pipeline import run_post_scrape_pipeline
 
 def run_scraper(dry_run: bool = False):
     """
@@ -26,7 +27,17 @@ def run_scraper(dry_run: bool = False):
         print("Processing results and saving to database...")
         saved, skipped = process_results(results)
         print(f"Done! Saved/Updated: {saved}, Skipped: {skipped}")
-        
+
+        print("Running post-scrape business logic pipeline...")
+        try:
+            with get_session() as session:
+                run_post_scrape_pipeline(session)
+            print("Pipeline complete.")
+        except Exception as pipeline_err:
+            error_msg = f"Pipeline error (non-fatal): {traceback.format_exc()}"
+            print(error_msg, file=sys.stderr)
+            log_system_error("pipeline_main", error_msg)
+
     except Exception as e:
         error_msg = f"Fatal error in scraper orchestration: {traceback.format_exc()}"
         print(error_msg, file=sys.stderr)
