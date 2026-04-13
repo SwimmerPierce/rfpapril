@@ -6,7 +6,7 @@
 |---|-------|------|--------------|------------------|
 | 1 | Database & Scraper Skeleton | Establish reliable data capture and continuous deployment pipeline. | SCRAP-01, SCRAP-02, DB-01, DB-02, DB-03, OPS-01 | 3 |
 | 2 | Business Logic Engine | Establish logic to identify winners, match brokers, and queue enrichment. | PROC-01, PROC-02, PROC-03, PROC-04 | 3 |
-| 3 | Zoho CRM Integration | Sync local DB state to Zoho and route issues to an Admin Dashboard. | SYNC-01, SYNC-02, SYNC-03, ADMIN-01, ADMIN-02 | 3 |
+| 3 | Zoho CRM Integration | 2/3 | In Progress|  |
 | 4 | Email Notifications | Send 4:00 AM daily digests to assigned brokers and an Admin fallback email. | NOTIF-01, NOTIF-02 | 2 |
 
 ---
@@ -42,6 +42,10 @@
 2. Any entity syncing failures, unmapped organizations, or enrichment errors generate persistent records.
 3. The Admin can view and resolve tasks exclusively within the Zoho Dashboard.
 **UI hint:** no
+**Plans:** 2/3 plans executed
+- [x] 03-01-PLAN.md — Data Model Updates & OAuth Client
+- [x] 03-02-PLAN.md — Record Mappers & Sync Service
+- [ ] 03-03-PLAN.md — Pipeline Integration & Admin Queue Sync
 
 #### Phase 4: Email Notifications
 **Goal:** Send 4:00 AM daily digests to assigned brokers and an Admin fallback email.

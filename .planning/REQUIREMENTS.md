@@ -4,12 +4,12 @@
 
 ### Scraping
 - [ ] **SCRAP-01**: System executes a reliable daily data gathering task at 3:00 AM automatically.
-- [ ] **SCRAP-02**: System navigates BC Bids and extracts all unverified bid results posted during the previous day.
+- [x] **SCRAP-02**: System navigates BC Bids and extracts all unverified bid results posted during the previous day.
 
 ### Database & Storage
 - [ ] **DB-01**: System persists unique Project records (Opportunity ID, Name, Issuing Org, Date, URL).
 - [ ] **DB-02**: System persists Company records, handling deduplication based on legal names.
-- [ ] **DB-03**: System persists Bid records mapping bid amounts to specific Companies and Projects.
+- [x] **DB-03**: System persists Bid records mapping bid amounts to specific Companies and Projects.
 
 ### Business Logic & Processing
 - [ ] **PROC-01**: System flags the lowest bid on a given project as the assumed winner.
@@ -18,8 +18,8 @@
 - [ ] **PROC-04**: System flags previously unseen companies and runs an enrichment pipeline (Google -> Website -> LinkedIn) to gather contact information.
 
 ### Zoho CRM Sync
-- [ ] **SYNC-01**: System synchronizes Company data accurately to the custom 'BC Bids Companies' Zoho module.
-- [ ] **SYNC-02**: System synchronizes Project data accurately to the custom 'BC Bids Projects' Zoho module.
+- [x] **SYNC-01**: System synchronizes Company data accurately to the custom 'BC Bids Companies' Zoho module.
+- [x] **SYNC-02**: System synchronizes Project data accurately to the custom 'BC Bids Projects' Zoho module.
 - [ ] **SYNC-03**: System synchronizes Bid data accurately to the custom 'BC Bids (Individual Bids)' Zoho module.
 
 ### Notifications
