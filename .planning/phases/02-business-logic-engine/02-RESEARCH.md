@@ -145,12 +145,12 @@ def log_issue_for_zoho(session: Session, source: str, message: str, entity_id: i
 | A2 | Broker assignments are 1:1 or 1:N based on Organization. | Architecture | If assignment logic is more complex (territories, etc.), schema needs update. |
 | A3 | LinkedIn URLs can be found on company homepage. | Common Pitfalls | If companies don't link LinkedIn on site, discovery will fail. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Broker Configuration Storage:** Should brokers be managed in a local DB table or should they be pulled from Zoho?
-   - *Recommendation:* Keep a local `Broker` and `BrokerMapping` table for speed, and create a "Sync Brokers" task in Phase 3.
+   - **RESOLVED:** Keep a local `Broker` and `BrokerMapping` table for speed and stability during Phase 2. A "Sync Brokers" task will be added to Phase 3 to keep them updated from Zoho.
 2. **Contact Info Depth:** What specific contact info is needed (Email, Phone, Person Name)?
-   - *Recommendation:* Start with Website/LinkedIn. If specific emails are needed, we may need a paid tool like Hunter.io later.
+   - **RESOLVED:** Phase 2 will focus on finding the Website and LinkedIn URL. If deeper contact extraction (e.g., specific emails) is required, it will be evaluated as a V2 requirement to maintain the $200/mo budget.
 
 ## Environment Availability
 

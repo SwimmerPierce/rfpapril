@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs roadmap update-plan-progress 02 02-01 completed)",
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs roadmap update-plan-progress 02 02-02 completed)",
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs verify key-links .planning/phases/02-business-logic-engine/02-03-PLAN.md)",
+      "Bash(python -m pytest tests/test_pipeline.py -q --tb=short)",
+      "Bash(python src/main.py --help)",
+      "Bash(python -m src.main --help)",
+      "Bash(python -m pytest tests/test_pipeline.py tests/test_logic.py tests/test_enrichment.py -q --tb=short)",
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs roadmap update-plan-progress 02 02-03 completed)",
+      "Bash(python -m pytest tests/ -q --tb=short)",
+      "Skill(gsd-code-review)",
+      "Skill(gsd-code-review:*)",
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs phase complete 02)"
+    ]
+  }
+}
