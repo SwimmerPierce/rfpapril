@@ -96,5 +96,6 @@ class SystemError(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     source: str
     error_message: str
+    entity_id: Optional[int] = Field(default=None, index=True)
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     resolved: bool = Field(default=False)
