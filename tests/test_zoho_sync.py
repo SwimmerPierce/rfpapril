@@ -165,3 +165,32 @@ def test_sync_exception_handling(session, sync_service, zoho_client):
     assert len(errors) == 1
     assert "sync_companies" in errors[0].source
     assert "API Down" in errors[0].error_message
+
+def test_sync_errors_success(session, sync_service, zoho_client):
+    """Test successful sync of system errors to Zoho."""
+    error = SystemError(source="test_source", error_message="Test Error Message", entity_id=123)
+    session.add(error)
+    session.commit()
+    
+    zoho_client.post.return_value = {
+        "data": [
+            {
+                "status": "success",
+                "details": {"id": "ZOHO_ERR_1"}
+            }
+        ]
+    }
+    
+    count = sync_service.sync_errors(session)
+    
+    assert count == 1
+    session.refresh(error)
+    assert error.zoho_id == "ZOHO_ERR_1"
+    
+    # Verify mapping
+    args, kwargs = zoho_client.post.call_args
+    error_data = kwargs["json"]["data"][0]
+    assert error_data["Issue_Type"] == "test_source"
+    assert error_data["Description"] == "Test Error Message"
+    assert error_data["Related_Entity_ID"] == "123"
+    assert error_data["Status"] == "Open"
