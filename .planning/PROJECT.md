@@ -14,7 +14,12 @@ Ensure absolute data accuracy of who bid and who lost on government contracts, d
 
 <!-- Shipped and confirmed valuable. -->
 
-(None yet — ship to validate)
+- [x] Daily scraper for BC Bids unverified bid results (previous day) — Validated in Phase 01: database-scraper-skeleton
+- [x] Database storage (SQLite → PostgreSQL) of projects, companies, and bids — Validated in Phase 01: database-scraper-skeleton
+- [x] Winner determination (lowest bid) — Validated in Phase 02: business-logic-engine
+- [x] Broker assignment (matching by issuing org + bid size range) — Validated in Phase 02: business-logic-engine
+- [x] Company enrichment pipeline (DuckDuckGo → website → LinkedIn) — Validated in Phase 02: business-logic-engine
+- [x] Error logging and routing for unresolved issues — Validated in Phase 02: business-logic-engine (SystemError table + log_processing_error)
 
 ### Active
 
@@ -62,7 +67,7 @@ The system is built for an internal insurance brokerage focused on finding const
 | Ephemeral Notifications are banned for Admin | If a task or error requires admin manual intervention, it goes to the Zoho Dashboard Issue Queue. Email is for final broker leads only. | — Pending |
 
 ---
-*Last updated: April 10, 2026 after initialization*
+*Last updated: April 13, 2026 — Phase 02 complete (business-logic-engine)*
 
 ## Evolution
 
