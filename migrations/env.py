@@ -13,7 +13,7 @@ from alembic import context
 sys.path.append(os.getcwd())
 
 # Import models to ensure they are registered with SQLModel.metadata
-from src.database.models import Project, Company, Bid, SystemError
+from src.database.models import Project, Company, Bid, SystemError, Broker, BrokerMapping, BidAssignment
 
 load_dotenv()
 
